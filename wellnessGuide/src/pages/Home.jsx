@@ -1,19 +1,37 @@
-import React, {useState} from "react";
+import React from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "@/context/userContext";
+import { z } from "zod";
+import { toast } from "sonner";
 
 const Home = () => {
     const navigate = useNavigate();
-    const [age, setAge] = useState("");
-    const [gender, setGender] = useState("");
-    const [goal, setGoal] = useState("");
+    const { age, setAge, gender, setGender, goal, setGoal } = useUser();
+
+    const formSchema = z.object({
+        age: z
+            .string()
+            .nonempty("Age is required")
+            .regex(/^\d+$/, "Age must be a number")
+            .transform((val) => parseInt(val, 10)),
+        gender: z.string().nonempty("Gender is required"),
+        goal: z.string().nonempty("Goal is required"),
+    });
 
     const handleSubmit = () => {
-        navigate(`/dashboard/${age}/${gender}/${goal}`);
+        try {
+            const data = formSchema.parse({ age, gender, goal });
+            navigate(`/dashboard/${data.age}/${data.gender}/${data.goal}`);
+        } catch (err) {
+            if (err instanceof z.ZodError) {
+                err.issues.forEach((e) => toast.error(e.message));
+            }
+        }
     };
 
     return (
@@ -39,7 +57,7 @@ const Home = () => {
                                 onChange={(e) => setAge(e.target.value)}
                             />
                             <Label htmlFor="gender">Gender</Label>
-                            <Select onValueChange={(e) => setGender(e)}>
+                            <Select onValueChange={(e) => setGender(e)} value={gender}>
                                 <SelectTrigger id="gender" className="w-full">
                                     <SelectValue placeholder="Select your gender" />
                                 </SelectTrigger>
