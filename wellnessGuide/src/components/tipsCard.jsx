@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const getBadgeColor = (score) => {
     if (score >= 8) return "bg-green-500";
     if (score >= 5) return "bg-yellow-500";
-    return "bg-red-500";
+    return "bg-red-700";
 };
 
 const TipsCard = ({ title, description, effectScore, timeScore, costScore }) => {
@@ -20,7 +20,7 @@ const TipsCard = ({ title, description, effectScore, timeScore, costScore }) => 
             }
         >
             <div className="relative w-full h-52 card group-hover:rotate-y-180">
-                <Card className="card-front absolute w-full h-full flex items-center justify-center bg-[#FF4052] text-white">
+                <Card className="card-front absolute w-full h-full flex items-center justify-center bg-[#ff4052] text-white">
                     <CardContent className="text-center">
                         <CardTitle className="mb-2">{title}</CardTitle>
 
