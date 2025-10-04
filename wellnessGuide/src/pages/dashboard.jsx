@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
+import TipsCard from "../components/tipsCard";
 
 const Dashboard = () => {
     const [loading, setLoading] = useState(true);
@@ -27,6 +28,7 @@ const Dashboard = () => {
                     .replace(/```$/i, "")
                     .trim();
                 const parsed = JSON.parse(raw);
+                console.log(parsed);
                 setTips(parsed);
             } catch (err) {
                 console.error("Error parsing JSON:", err);
@@ -41,23 +43,29 @@ const Dashboard = () => {
 
     const { age, gender, goal } = useParams();
     useEffect(() => {
-        fetchTips();
-        console.log(tips);
+        if (!tips) {
+            fetchTips();
+        }
     }, []);
 
     return (
-        <div>
-            {age}
-            {goal}
-            {gender}
+        <div className="p-4 bg-[#FFF2E6] min-h-screen text-[#3A0E2B]">
+            {loading && <div className="animate-pulse text-center text-gray-600">Tips are being generated...</div>}
 
-            {loading && <div className="animate-pulse">Tips are being generated</div>}
-            {Object.entries(tips).map(([title, description], index) => (
-                <div key={index} className="p-4 border rounded-lg shadow">
-                    <h3 className="font-semibold text-lg">{title}</h3>
-                    <p className="text-gray-700">{description}</p>
+            {!loading && (
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 justify-items-center">
+                    {Object.entries(tips).map(([title, tipData], i) => (
+                        <TipsCard
+                            key={i}
+                            title={title}
+                            description={tipData.description}
+                            effectScore={tipData.effectivenessScore}
+                            costScore={tipData.costScore}
+                            timeScore={tipData.timeScore}
+                        />
+                    ))}
                 </div>
-            ))}
+            )}
         </div>
     );
 };

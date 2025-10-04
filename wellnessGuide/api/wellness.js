@@ -14,11 +14,24 @@ export default async function handler(req, res) {
 
         const ai = new GoogleGenAI({});
         const prompt = `
-      You are a wellness coach.
-      The user is ${age} years old, identifies as ${gender}, and their goal is "${goal}".
-      Give 5 detailed and practical tips that are mutually exclusive if possible. Dont add any introductions. 
-      Just the tips in a valid JSON format with a title as key and description as value.
-    `;
+            You are a wellness coach.
+
+        User Information:
+        - Age: ${age} years old
+        - Gender: ${gender}
+        - Goal: "${goal}"
+
+        Instructions:
+        1. Provide exactly 5 practical tips for achieving the user's goal.
+        2. The tips should be mutually exclusive whenever possible.
+        3. Do NOT include introductions or explanations—just the tips in JSON format.
+        4. Format the output as valid JSON, where each tip has:
+        - The title as the key.
+        - The value is an object containing:
+            a) description: How and when to use the tip.
+            b) effectivenessScore: A number from 1 to 10 indicating the impact of this tip for achieving the goal.
+            c) costScore: A number from 1 to 10 indicating how inexpensive or costly it is to follow.
+            d) timeScore: A number from 1 to 10 indicating whether it takes a short or long time to implement.`;
 
         const response = await ai.models.generateContent({
             model: "gemini-2.5-flash",

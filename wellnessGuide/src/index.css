@@ -1,6 +1,22 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+.card-back {
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    overflow: hidden;
+}
+
+.card-front {
+    backface-visibility: hidden;
+    overflow: hidden;
+}
+
+.card {
+    transform-style: preserve-3d;
+    transition: all 0.5s ease;
+}
+
 /* @custom-variant dark (&:is(.dark *));
 
 :root {
