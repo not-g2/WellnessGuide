@@ -28,7 +28,8 @@ export default async function handler(req, res) {
         4. Format the output as valid JSON, where each tip has:
         - The title as the key.
         - The value is an object containing:
-            a) description: How and when to use the tip.
+            a) description: Write a detailed explanation (~200 words) of how and when to apply this tip. Include practical guidance 
+            and use bullet points to emphasize the most important steps or recommendations.
             b) effectivenessScore: A number from 1 to 10 indicating the impact of this tip for achieving the goal.
             c) costScore: A number from 1 to 10 indicating how inexpensive or costly it is to follow.
             d) timeScore: A number from 1 to 10 indicating whether it takes a short or long time to implement.`;

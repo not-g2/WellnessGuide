@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 
 const getBadgeColor = (score) => {
     if (score >= 8) return "bg-green-500";
@@ -8,8 +9,16 @@ const getBadgeColor = (score) => {
 };
 
 const TipsCard = ({ title, description, effectScore, timeScore, costScore }) => {
+    const navigate = useNavigate();
     return (
-        <div className="w-full max-w-xs m-2 group">
+        <div
+            className="w-full max-w-xs m-2 group"
+            onClick={() =>
+                navigate("/card", {
+                    state: { title, description, effectScore, costScore, timeScore },
+                })
+            }
+        >
             <div className="relative w-full h-52 card group-hover:rotate-y-180">
                 <Card className="card-front absolute w-full h-full flex items-center justify-center bg-[#FF4052] text-white">
                     <CardContent className="text-center">
