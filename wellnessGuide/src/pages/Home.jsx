@@ -81,9 +81,12 @@ const Home = () => {
                             />
                         </div>
                     </CardContent>
-                    <CardFooter className="flex justify-center">
+                    <CardFooter className="flex justify-between">
                         <Button onClick={handleSubmit} className="bg-[#FF4052] hover:bg-[#FF2A3A]">
                             Get Tips
+                        </Button>
+                        <Button onClick={() => navigate("/fav")} className="bg-[#FF4052] hover:bg-[#FF2A3A]">
+                            Go to Favorites
                         </Button>
                     </CardFooter>
                 </Card>

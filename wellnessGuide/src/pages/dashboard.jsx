@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import TipsCard from "../components/tipsCard";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(false);
     const { tips, setTips } = useContext(TipsContext);
     const { age, gender, goal } = useParams();
+    const navigate = useNavigate();
 
     const fetchTips = async (force = false) => {
         if (loading) return;
@@ -89,6 +90,26 @@ const Dashboard = () => {
                     ))}
                 </div>
             )}
+
+            <div className="flex justify-between items-center mb-6">
+                <div className="flex justify-center mt-6">
+                    <button
+                        onClick={() => navigate(-1)}
+                        className="bg-[#FF4052] hover:bg-[#e63946] text-white px-6 py-2 rounded-lg shadow-md transition"
+                    >
+                        Go Back
+                    </button>
+                </div>
+
+                <div className="flex justify-center mt-6">
+                    <button
+                        onClick={() => navigate("/fav")}
+                        className="bg-[#FF4052] hover:bg-[#e63946] text-white px-6 py-2 rounded-lg shadow-md transition"
+                    >
+                        Go to Favorites
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };
