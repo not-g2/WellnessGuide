@@ -11,10 +11,12 @@ export default async function handler(req, res) {
         if (!age || !gender || !goal) {
             return res.status(400).json({ error: "Missing required fields" });
         }
+        const seed = Math.random().toString(36).slice(2, 8);
 
         const ai = new GoogleGenAI({});
         const prompt = `
             You are a wellness coach.
+            Session ID: ${seed}
 
         User Information:
         - Age: ${age} years old
@@ -32,7 +34,8 @@ export default async function handler(req, res) {
             and use bullet points to emphasize the most important steps or recommendations.
             b) effectivenessScore: A number from 1 to 10 indicating the impact of this tip for achieving the goal.
             c) costScore: A number from 1 to 10 indicating how inexpensive or costly it is to follow.
-            d) timeScore: A number from 1 to 10 indicating whether it takes a short or long time to implement.`;
+            d) timeScore: A number from 1 to 10 indicating whether it takes a short or long time to implement.
+            Make sure the Session ID is used internally to vary responses slightly, even for identical inputs.`;
 
         const response = await ai.models.generateContent({
             model: "gemini-2.5-flash",

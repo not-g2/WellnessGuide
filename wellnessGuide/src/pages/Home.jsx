@@ -67,11 +67,11 @@ const Home = () => {
 
     return (
         <div className="pt-3 bg-[#FFF2E6] text-[#3A0E2B] min-h-screen">
-            <div className="justify-center flex text-xl font-semibold mb-10 mt-10">Wellness Guide</div>
+            <div className="justify-center flex text-3xl mb-10 mt-10 font-bold">Wellness Guide</div>
             <div className="flex justify-center items-center min-h-[60vh]">
                 <Card className="w-full max-w-sm md:max-w-md lg:w-lg bg-[#3A0E2B] text-white p-10">
                     <CardHeader className="flex justify-center flex-col items-center text-center">
-                        <CardTitle>Welcome!</CardTitle>
+                        <CardTitle className="font-extrabold text-2xl">Welcome!</CardTitle>
                         <CardDescription>
                             To personalize your experience, we just need a few details from you.
                         </CardDescription>

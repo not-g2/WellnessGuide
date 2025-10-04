@@ -31,6 +31,10 @@
     animation: fade-in 1s ease-in-out;
 }
 
+body.animating {
+    overflow: hidden;
+}
+
 /* @custom-variant dark (&:is(.dark *));
 
 :root {

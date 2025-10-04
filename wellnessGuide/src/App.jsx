@@ -1,22 +1,63 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Dashboard from "./pages/dashboard";
 import CardPage from "./pages/cardPage";
-import FavTips from "./pages/favtips"
+import FavTips from "./pages/favtips";
 import Home from "./pages/Home";
 import { Toaster } from "./components/ui/sonner";
+import { AnimatePresence } from "framer-motion";
+import AnimatedPage from "./components/AnimatedPage";
+import { useEffect } from "react";
+
 function App() {
+    const location = useLocation();
+
+    useEffect(() => {
+        document.body.classList.add("animating");
+        const timeout = setTimeout(() => {
+            document.body.classList.remove("animating");
+        }, 1000);
+        return () => clearTimeout(timeout);
+    }, [location.pathname]);
     return (
         <>
             <Toaster position="bottom-right" richColors />
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/Dashboard/:age/:gender/:goal" element={<Dashboard />} />
-                    <Route path="/card" element={<CardPage />} />
-                    <Route path="/fav" element={<FavTips />} />
+            <AnimatePresence mode="wait">
+                <Routes location={location} key={location.pathname}>
+                    <Route
+                        path="/"
+                        element={
+                            <AnimatedPage>
+                                <Home />
+                            </AnimatedPage>
+                        }
+                    />
+                    <Route
+                        path="/dashboard/:age/:gender/:goal"
+                        element={
+                            <AnimatedPage>
+                                <Dashboard />
+                            </AnimatedPage>
+                        }
+                    />
+                    <Route
+                        path="/card"
+                        element={
+                            <AnimatedPage>
+                                <CardPage />
+                            </AnimatedPage>
+                        }
+                    />
+                    <Route
+                        path="/fav"
+                        element={
+                            <AnimatedPage>
+                                <FavTips />
+                            </AnimatedPage>
+                        }
+                    />
                 </Routes>
-            </BrowserRouter>
+            </AnimatePresence>
         </>
     );
 }

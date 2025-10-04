@@ -13,7 +13,7 @@ const FavTips = () => {
 
     if (favorites.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen text-gray-600 p-4">
+            <div className="flex flex-col items-center justify-center min-h-screen bg-[#FFF2E6] text-[#3A0E2B] p-4">
                 <img src="/broken-heart.png" alt="No favorites" className="w-32 h-32" />
                 <p className="text-lg mb-2">You haven't saved any favorite tips yet.</p>
                 <p className="mb-4 text-center">

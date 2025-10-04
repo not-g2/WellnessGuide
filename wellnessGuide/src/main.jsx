@@ -3,11 +3,14 @@ import "./index.css";
 import App from "./App.jsx";
 import { UserProvider } from "./context/userContext";
 import { TipsProvider } from "./context/tipsContext";
+import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")).render(
     <TipsProvider>
         <UserProvider>
-            <App />
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
         </UserProvider>
     </TipsProvider>
 );
