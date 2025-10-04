@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -14,16 +14,44 @@ const Home = () => {
     const navigate = useNavigate();
     const { age, setAge, gender, setGender, goal, setGoal } = useUser();
     const { tips, setTips } = useContext(TipsContext);
+    const [isLoading, setIsLoading] = useState(false);
 
     const formSchema = z.object({
         age: z
             .string()
             .nonempty("Age is required")
             .regex(/^\d+$/, "Age must be a number")
+            .refine((val) => parseInt(val) > 0 && parseInt(val) < 120, "Age must be between 0 and 120")
             .transform((val) => parseInt(val, 10)),
         gender: z.string().nonempty("Gender is required"),
-        goal: z.string().nonempty("Goal is required"),
+        goal: z
+            .string()
+            .nonempty("Goal is required")
+            .refine((val) => /^[a-zA-Z0-9\s]+$/.test(val), "Goal must only contain letters and numbers"),
     });
+
+    const validateGoal = async () => {
+        setIsLoading(true);
+
+        try {
+            const res = await fetch("/api/goalcheck", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ goal }),
+            });
+            const data = await res.json();
+            console.log(data.response);
+            if (data.response === "INVALID") {
+                toast.error("Goal seems inavlid. Be more concise and try something else.");
+            } else {
+                handleSubmit();
+            }
+        } catch (err) {
+            toast.error(err.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const handleSubmit = () => {
         try {
@@ -82,7 +110,7 @@ const Home = () => {
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-between">
-                        <Button onClick={handleSubmit} className="bg-[#FF4052] hover:bg-[#FF2A3A]">
+                        <Button disabled={isLoading} onClick={validateGoal} className="bg-[#FF4052] hover:bg-[#FF2A3A]">
                             Get Tips
                         </Button>
                         <Button onClick={() => navigate("/fav")} className="bg-[#FF4052] hover:bg-[#FF2A3A]">
