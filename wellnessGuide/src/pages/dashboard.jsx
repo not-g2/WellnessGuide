@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 import TipsCard from "../components/tipsCard";
-import { Button } from "@/components/ui/button"; // shadcn button
+import { Button } from "@/components/ui/button";
 import { TipsContext } from "@/context/tipsContext";
 
 const Dashboard = () => {

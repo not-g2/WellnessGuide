@@ -8,10 +8,12 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "@/context/userContext";
 import { z } from "zod";
 import { toast } from "sonner";
+import { TipsContext } from "@/context/tipsContext";
 
 const Home = () => {
     const navigate = useNavigate();
     const { age, setAge, gender, setGender, goal, setGoal } = useUser();
+    const { tips, setTips } = useContext(TipsContext);
 
     const formSchema = z.object({
         age: z
@@ -26,6 +28,7 @@ const Home = () => {
     const handleSubmit = () => {
         try {
             const data = formSchema.parse({ age, gender, goal });
+            setTips("");
             navigate(`/dashboard/${data.age}/${data.gender}/${data.goal}`);
         } catch (err) {
             if (err instanceof z.ZodError) {

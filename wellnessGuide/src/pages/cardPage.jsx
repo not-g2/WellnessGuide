@@ -8,6 +8,7 @@ const CardPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { title, description, effectScore, costScore, timeScore } = location.state || {};
+    const [isFavorite, setIsFavorite] = useState(false);
 
     if (!title) {
         return (
